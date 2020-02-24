@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.ibm.icu.text.RuleBasedNumberFormat
 import kotlinx.android.synthetic.main.number_item.view.*
+import java.util.*
 
 class NumberAdapter(private val numberList: List<NumberItem>) :
     RecyclerView.Adapter<NumberAdapter.NumberViewHolder>() {
@@ -23,9 +25,10 @@ class NumberAdapter(private val numberList: List<NumberItem>) :
 
     override fun onBindViewHolder(holder: NumberViewHolder, position: Int) {
         val currentItem = numberList[position]
+        val rbnf = RuleBasedNumberFormat(Locale("ru"), RuleBasedNumberFormat.SPELLOUT)
 
         holder.imageView.setImageResource(currentItem.imageResource)
-        holder.textView1.text = currentItem.text1//equal to "holder.itemView.text_view_1.text = ..." (1)
+        holder.textView1.text = rbnf.format(currentItem.number)//equal to "holder.itemView.text_view_1.text = ..." (1)
         holder.textView2.text = currentItem.text2
         holder.cardView.setBackgroundResource(currentItem.color)
     }
