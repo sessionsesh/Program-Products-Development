@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.lab1">
+    package="com.mirea.ikbo0218.sorokin.lab1">
 
     <application
         android:allowBackup="true"
@@ -9,22 +8,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity2"></activity>
-        <!--
-        Note: After you publish your app, you should not change activity names.
-        If you do, you might break some functionality, such as app shortcuts.
-        For more information on changes to avoid after publishing,
-        see Things That Cannot Change.
-        -->
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
