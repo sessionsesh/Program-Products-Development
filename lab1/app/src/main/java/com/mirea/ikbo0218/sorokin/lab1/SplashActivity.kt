@@ -12,8 +12,8 @@ class SplashActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val th = Thread {
                 Thread.sleep(2000)
-                val intentMA = Intent(this, MainActivity::class.java)
-                startActivity(intentMA)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             th.start()
         }

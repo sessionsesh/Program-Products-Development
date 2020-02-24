@@ -6,6 +6,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorBackground">#00BCD4</color>
     <!--List Colors-->
-    <color name="colorEven">#00BCD4</color>
-    <color name="colorOdd">#00BCD4</color>
+    <color name="colorEven">#727272</color>
+    <color name="colorOdd">#FFFFFF</color>
 </resources>
