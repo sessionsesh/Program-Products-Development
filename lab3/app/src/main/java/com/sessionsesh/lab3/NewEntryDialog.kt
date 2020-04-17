@@ -28,14 +28,11 @@ class NewEntryDialog : DialogFragment() {
                 .setMessage("Create New Entry")
                 .setPositiveButton("Create",
                     DialogInterface.OnClickListener { dialog, id ->
-                        val firstName =
-                            "${view.findViewById<EditText>(R.id.edit_text_first_name).text}"
-                        val lastName =
-                            "${view.findViewById<EditText>(R.id.edit_text_last_name).text}"
-                        addEntry(firstName,lastName)
+                        val name =
+                            "${view.findViewById<EditText>(R.id.edit_text_name).text}"
+                        addEntry(name)
 
-
-                        val message: String = "$firstName $lastName"
+                        val message: String = "$name"
                         Toast.makeText(context, message, Toast.LENGTH_LONG)
                             .show()    // first argument can be fragment context [getContext()] or activity [getActivity()]
                     })
@@ -48,13 +45,12 @@ class NewEntryDialog : DialogFragment() {
 
     }
 
-    private fun addEntry(firstName: String, lastName: String) {
+    private fun addEntry(name: String) {
         val dbHelper = context?.let { DBHelper(it) }
         val db = dbHelper?.writableDatabase
 
         val values = ContentValues()
-        values.put(StudentsContract.StudentEntry.COLUMN_FIRST_NAME, firstName)
-        values.put(StudentsContract.StudentEntry.COLUMN_LAST_NAME, lastName)
+        values.put(StudentsContract.StudentEntry.COLUMN_NAME, name)
 
         val newRowId = db?.insert(StudentsContract.StudentEntry.TABLE_NAME, null, values)
         Log.d("MyLog", "Data was added to database on ID($newRowId)")
