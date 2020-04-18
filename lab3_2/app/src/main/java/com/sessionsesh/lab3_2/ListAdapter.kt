@@ -1,4 +1,4 @@
-package com.sessionsesh.lab3
+package com.sessionsesh.lab3_2
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,11 @@ class ListAdapter(private val dbHelper: DBHelper) :
         )
         cursor.moveToFirst()
         holder.textViewID.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.ID))
-        holder.textViewName.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.COLUMN_NAME))
+
+        holder.textViewLastName.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.COLUMN_LAST_NAME))
+        holder.textViewFirstName.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.COLUMN_FIRST_NAME))
+        holder.textViewMiddleName.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.COLUMN_MIDDLE_NAME))
+
         holder.textViewDate.text = cursor.getString(cursor.getColumnIndex(StudentsContract.StudentEntry.COLUMN_DATE_ADDED))
         cursor.close()
     }
@@ -39,8 +43,14 @@ class ListAdapter(private val dbHelper: DBHelper) :
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewID: TextView = itemView.item_id
-        val textViewName: TextView = itemView.item_name
+
+        val textViewLastName: TextView = itemView.item_last_name
+        val textViewFirstName: TextView = itemView.item_first_name
+        val textViewMiddleName: TextView = itemView.item_middle_name
+
         val textViewDate: TextView = itemView.item_date
     }
+
+
 }
 

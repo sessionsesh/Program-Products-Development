@@ -1,4 +1,4 @@
-package com.sessionsesh.lab3
+package com.sessionsesh.lab3_2
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -9,7 +9,9 @@ class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     private val SQL_CREATE_ENTRIES = "CREATE TABLE ${StudentsContract.StudentEntry.TABLE_NAME} (" +
             "${StudentsContract.StudentEntry.ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "${StudentsContract.StudentEntry.COLUMN_NAME} TEXT," +
+            "${StudentsContract.StudentEntry.COLUMN_FIRST_NAME} TEXT," +
+            "${StudentsContract.StudentEntry.COLUMN_LAST_NAME} TEXT," +
+            "${StudentsContract.StudentEntry.COLUMN_MIDDLE_NAME} TEXT," +
             "${StudentsContract.StudentEntry.COLUMN_DATE_ADDED} DATETIME DEFAULT CURRENT_TIMESTAMP)"
 
     private val SQL_DELETE_ENTRIES =

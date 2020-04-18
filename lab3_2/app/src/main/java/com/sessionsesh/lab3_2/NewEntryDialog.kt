@@ -1,4 +1,4 @@
-package com.sessionsesh.lab3
+package com.sessionsesh.lab3_2
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -27,11 +27,11 @@ class NewEntryDialog : DialogFragment() {
                 .setMessage("Create New Entry")
                 .setPositiveButton("Create",
                     DialogInterface.OnClickListener { dialog, id ->
-                        val name =
+                        val fullName =
                             "${view.findViewById<EditText>(R.id.edit_text_name).text}"
-                        addEntry(name)
+                        addEntry(fullName)
 
-                        val message: String = "$name"
+                        val message: String = fullName
                         Toast.makeText(context, message, Toast.LENGTH_LONG)
                             .show()    // first argument can be fragment context [getContext()] or activity [getActivity()]
                     })
@@ -48,8 +48,12 @@ class NewEntryDialog : DialogFragment() {
         val dbHelper = context?.let { DBHelper(it) }
         val db = dbHelper?.writableDatabase
 
+        val fullNameList = name.split(" ")  //splitting fullName into lastName[0], firstName[1], midName[2]
+
         val values = ContentValues()
-        values.put(StudentsContract.StudentEntry.COLUMN_NAME, name)
+        values.put(StudentsContract.StudentEntry.COLUMN_LAST_NAME, fullNameList[0])
+        values.put(StudentsContract.StudentEntry.COLUMN_FIRST_NAME, fullNameList[1])
+        values.put(StudentsContract.StudentEntry.COLUMN_MIDDLE_NAME, fullNameList[2])
 
         val newRowId = db?.insert(StudentsContract.StudentEntry.TABLE_NAME, null, values)
         Log.d("MyLog", "Data was added to database on ID($newRowId)")
