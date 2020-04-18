@@ -1,12 +1,16 @@
 package com.mirea.ikbo0218.sorokin.lab2
 
+import android.content.Context
 import android.media.Image
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 
 // Provide a reference to the views for each data item
@@ -34,7 +38,21 @@ class Adapter(private val dataset: ArrayList<Element>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataset[position].name
-        holder.imageView.setImageBitmap(dataset[position].img)
+        Picasso.get()
+            .load(dataset[position].link_to_img)
+            .into(holder.imageView, object : com.squareup.picasso.Callback {
+                override fun onSuccess() {
+                    Log.e("Picasso", "Success")
+                }
+
+                override fun onError(e: Exception?) {
+                    holder.imageView.setImageResource(R.drawable.ic_error_black_24dp)
+                    Log.e("Picasso", e.toString())
+                }
+
+            })
+
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

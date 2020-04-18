@@ -5,8 +5,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.io.Serializable
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),Serializable {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -14,10 +15,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("DEBUG","HEYEYEYEYEY")
-        val extra: Bundle? = intent.getBundleExtra("extra")
 
-        val recyclerList = extra?.getSerializable("elements") as ArrayList<Element>
+        val recyclerList: ArrayList<Element> = intent.getSerializableExtra("serializableArrayList") as ArrayList<Element>
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = Adapter(recyclerList)

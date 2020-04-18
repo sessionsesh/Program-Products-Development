@@ -1,12 +1,19 @@
 package com.mirea.ikbo0218.sorokin.lab2
 
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import java.net.URL
-import com.google.gson.*
+import android.os.Environment
+import android.util.Log
+import android.widget.Toast
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.lang.Exception
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 //https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
@@ -46,23 +53,30 @@ class Parser {
         val sType = object : TypeToken<ArrayList<JsonElem>>() {}.type
         jsonElementsList =
             gson.fromJson<ArrayList<JsonElem>>(json, sType)  // Filling the list of Json Elements
+        Log.d("DOWNLOAD_TEST", "OK_JSON")
     }
 
+
+    //Long time downloading. Need to be fixed. May be new implementation of downloading
     fun downloadPictures() {
         for (i in jsonElementsList.indices) {
             val name: String = jsonElementsList[i].graphic
             val img: Bitmap = getImage(name)
             imgElementsList.add(img)
         }
+        Log.d("DOWNLOAD_TEST", "OK_PICTURES")
     }
 
     private fun getImage(imageID: String): Bitmap {  // imageID would be taken from JsonElem.nam
-        return try {
-            BitmapFactory.decodeStream(
+        try {
+            Log.d("DOWNLOAD_TEST", "$imageID downloaded")
+            return BitmapFactory.decodeStream(
                 URL("$image_url_string$imageID").openStream()
             )
+
         } catch (e: Exception) {
-            BitmapFactory.decodeStream(
+            Log.d("DOWNLOAD_TEST", "advanced_flight set")
+            return BitmapFactory.decodeStream(
                 URL("${image_url_string}advanced_flight.jpg").openStream()//openConnection().getInputStream()
             )
         }
