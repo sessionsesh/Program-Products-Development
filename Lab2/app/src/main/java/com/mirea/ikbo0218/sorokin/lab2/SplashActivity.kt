@@ -9,6 +9,7 @@ import android.view.Window
 import android.widget.ProgressBar
 import android.widget.Toast
 import java.io.Serializable
+import java.lang.Exception
 
 
 class SplashActivity : AppCompatActivity(), Serializable {
@@ -28,13 +29,15 @@ class SplashActivity : AppCompatActivity(), Serializable {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
-            pr.downloadJSONs()
+            try {
+                pr.downloadJSONs()
+            }catch (e: Exception){
+                Toast.makeText(applicationContext,"Check your internet connection",Toast.LENGTH_LONG)
+            }
+
             return null
         }
 
-        override fun onProgressUpdate(vararg values: Void?) {
-            super.onProgressUpdate(*values)
-        }
 
         override fun onPostExecute(result: Void?) {
             val image_url_string =
