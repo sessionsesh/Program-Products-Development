@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">lab4</string>
+    <string name="enter_date">date</string>
+    <string name="days">days</string>
+</resources>
