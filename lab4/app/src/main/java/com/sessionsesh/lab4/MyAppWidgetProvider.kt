@@ -1,12 +1,16 @@
 package com.sessionsesh.lab4
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class MyAppWidgetProvider : AppWidgetProvider() {
@@ -16,6 +20,8 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         appWidgetIds: IntArray?
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+
+
 
         // Perform this loop procedure for each App Widget that belongs to this provider
         appWidgetIds?.forEach { appWidgetId ->
@@ -40,18 +46,18 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        super.onReceive(context, intent)
-        val action = intent?.action
-        if(action.equals("android.appwidget.action.APPWIDGET_UPDATE")){
-
-        }
-    }
-
-    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-        appWidgetIds?.forEach { appwidgetId->
-
-        }
-
-    }
+//    override fun onReceive(context: Context?, intent: Intent?) {
+//        super.onReceive(context, intent)
+//        val action = intent?.action
+//        if(action.equals("android.appwidget.action.APPWIDGET_UPDATE")){
+//
+//        }
+//    }
+//
+//    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
+//        appWidgetIds?.forEach { appwidgetId->
+//
+//        }
+//
+//    }
 }
