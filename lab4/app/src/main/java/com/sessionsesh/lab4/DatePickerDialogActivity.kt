@@ -1,9 +1,6 @@
 package com.sessionsesh.lab4
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -18,8 +15,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-
 class DatePickerDialogActivity : AppCompatActivity() {
+    private var appWidgetId: Int = intent?.extras?.getInt(
+       "id"
+    ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
     /*Elements*/
     private lateinit var datePicker: CalendarView
     private lateinit var timePicker: TimePicker
@@ -37,8 +37,17 @@ class DatePickerDialogActivity : AppCompatActivity() {
         setContentView(R.layout.date_picker_activity)
         this.setFinishOnTouchOutside(false)
 
+        appWidgetId = intent?.extras?.getInt(
+        "id"
+        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
+        setResult(Activity.RESULT_OK, null)
         /*Creating notification channel*/
-        val channel = NotificationChannel("notifyLab", "Notification Channel", NotificationManager.IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(
+            "notifyLab",
+            "Notification Channel",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager?.createNotificationChannel(channel)
 
@@ -55,22 +64,23 @@ class DatePickerDialogActivity : AppCompatActivity() {
         timeChangeListener()
         buttonSetListener()
         buttonSwitchListener()
-
-        share()
     }
 
-    private fun share() {
-
+    private fun share(diffTime: Long) {
+        val sharedPref = getSharedPreferences("PREF", Context.MODE_PRIVATE)
+        sharedPref.edit().putLong("date", diffTime).apply()
     }
+
 
     // Here invoked alarm and notification methods
     private fun buttonSetListener() {
         buttonSet.setOnClickListener {
-            /*Creating notification??*/
+            /*Creating notification*/
             val intent = Intent(this, NotificationBroadcast::class.java)
             val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+            /*Reminder timing*/
             val setTime = System.currentTimeMillis() //time, when reminder was set
             val diffTime: Long =
                 calendar.timeInMillis - System.currentTimeMillis() //difference between chosen time and current
@@ -93,6 +103,29 @@ class DatePickerDialogActivity : AppCompatActivity() {
                     "Reminder will ring after ${diffTime / 1000L} seconds",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                //Share time
+                share(diffTime)
+
+                val resultValue =
+                    Intent().apply {
+                        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    }
+
+                val appWidgetManager = AppWidgetManager.getInstance(this)
+                val views = RemoteViews(applicationContext.packageName, R.layout.widget)
+                views.setTextViewText(R.id.days, "${diffTime / 1000 / 60 / 60 / 24}")
+
+                val context = applicationContext
+                val name = ComponentName(context, MyAppWidgetProvider::class.java)
+                val ids =
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(name)
+
+                appWidgetManager.updateAppWidget(ids[0], views)
+
+                setResult(Activity.RESULT_OK, resultValue)
+                MyAppWidgetProvider().onUpdate(this, appWidgetManager, IntArray(1){37})
+                finish()
             }
         }
     }
@@ -118,7 +151,6 @@ class DatePickerDialogActivity : AppCompatActivity() {
                 set(Calendar.MILLISECOND, 0)
             }
         }
-
     }
 
 
@@ -137,6 +169,7 @@ class DatePickerDialogActivity : AppCompatActivity() {
                 datePicker.visibility = View.VISIBLE
                 timePicker.visibility = View.GONE
             }
+
         }
     }
 
